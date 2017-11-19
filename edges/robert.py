@@ -2,7 +2,9 @@ import sys
 import numpy as np
 from scipy import ndimage
 from PIL import Image
+import time
 
+start_time = time.time()
 roberts_cross_v = np.array( [[ 0, 0, 0 ],
                              [ 0, 1, 0 ],
                              [ 0, 0,-1 ]] )
@@ -22,12 +24,13 @@ def save_image( data, outfilename ) :
 
 def roberts_cross( infilename, outfilename ) :
     image = load_image( infilename )
-
+	
     vertical = ndimage.convolve( image, roberts_cross_v )
     horizontal = ndimage.convolve( image, roberts_cross_h )
 
     output_image = np.sqrt( np.square(horizontal) + np.square(vertical))
+    print("Robert: --- %s seconds ---" % (time.time() - start_time))
 
     save_image( output_image, outfilename )
 
-roberts_cross( "C:/Users/salazar/project31/f.jpg", "C:/Users/salazar/project31/eo.jpg" )
+roberts_cross( "E:/Workspace/ip_edge_detection_and_comparison/f.jpg", "E:/Workspace/ip_edge_detection_and_comparison/fo.jpg" )

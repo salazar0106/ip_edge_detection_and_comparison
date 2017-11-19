@@ -1,23 +1,38 @@
 import numpy as np
 from scipy.ndimage import distance_transform_edt
+import time
+import cv2
 
+start_time = time.time()
 img = cv2.imread('f.jpg',0)
 
+#Canny
 canny = cv2.Canny(img,100,200)
+print("Canny: --- %s seconds ---" % (time.time() - start_time))
+
+#Sobel
 sobelx = cv2.Sobel(img,cv2.CV_8U,1,0,ksize=3)
 sobely = cv2.Sobel(img,cv2.CV_8U,0,1,ksize=3)
+sobel=sobelx+sobely
+print("Sobel: --- %s seconds ---" % (time.time() - start_time))
+
 scharrx = cv2.Scharr(img,cv2.CV_8U,1,0)
 scharry = cv2.Scharr(img,cv2.CV_8U,0,1)
-laplacian = cv2.Laplacian(img,cv2.CV_8U)
 scharr=scharrx+scharry
-sobel=sobelx+sobely
+print("Scharr: --- %s seconds ---" % (time.time() - start_time))
+
+laplacian = cv2.Laplacian(img,cv2.CV_8U)
+print("Laplacian: --- %s seconds ---" % (time.time() - start_time))
+
 img_gaussian = cv2.GaussianBlur(img,(3,3),0)
 kernelx = np.array([[1,1,1],[0,0,0],[-1,-1,-1]])
 kernely = np.array([[-1,0,1],[-1,0,1],[-1,0,1]])
 prewittx = cv2.filter2D(img_gaussian, -1, kernelx)
 prewitty = cv2.filter2D(img_gaussian, -1, kernely)
 prewitt=prewittx+prewitty
-robert= cv2.imread('eo.jpg',0)
+print("Prewitt: --- %s seconds ---" % (time.time() - start_time))
+
+robert= cv2.imread('fo.jpg',0)
 
 DEFAULT_ALPHA = 1.0 / 9
 
@@ -52,4 +67,4 @@ def fom(img, img_gold_std, alpha = DEFAULT_ALPHA):
 
     return fom
 
-print fom(sobel, robert)
+print(fom(sobel, robert))
