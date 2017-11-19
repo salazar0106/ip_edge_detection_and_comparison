@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 img = cv2.imread('a.jpg')
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
-corners = cv2.goodFeaturesToTrack(gray,500,0.01,4)
+corners = cv2.goodFeaturesToTrack(gray,1000,0.01,4)
 corners = np.int0(corners)
 
 for i in corners:
